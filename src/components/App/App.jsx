@@ -1,5 +1,5 @@
 import css from "./App.module.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import Description from "../Description/Description";
 import Options from "../Options/Options";
@@ -12,6 +12,7 @@ function App() {
     neutral: 0,
     bad: 0,
   });
+
   const updateFeedback = (feedbackType) => {
     setFeedbackTypes({
       ...feedbackTypes,
@@ -19,20 +20,53 @@ function App() {
     });
   };
 
+  const resetFeedback = () => {
+    setFeedbackTypes({
+      good: 0,
+      neutral: 0,
+      bad: 0,
+    });
+  };
+
   const totalFeedback =
     feedbackTypes.good + feedbackTypes.neutral + feedbackTypes.bad;
+
+  const positiveFeedback = Math.round(
+    ((feedbackTypes.good + feedbackTypes.neutral) / totalFeedback) * 100
+  );
 
   return (
     <div className={css.container}>
       <Description />
-      <Options
-        good={updateFeedback}
-        neutral={updateFeedback}
-        bad={updateFeedback}
-      />
-      <Feedback />
-      <Notification />
+      <div className={css.buttons}>
+        <Options onClick={() => updateFeedback("good")}>Good</Options>
+        <Options onClick={() => updateFeedback("neutral")}>Neutral</Options>
+        <Options onClick={() => updateFeedback("bad")}>Bad</Options>
+
+        {totalFeedback !== 0 ? (
+          <Options onClick={resetFeedback}>Reset</Options>
+        ) : (
+          <></>
+        )}
+      </div>
+      <></>
+      <>
+        {totalFeedback > 0 ? (
+          <>
+            <Feedback
+              good={feedbackTypes.good}
+              neutral={feedbackTypes.neutral}
+              bad={feedbackTypes.bad}
+              total={totalFeedback}
+              positive={positiveFeedback}
+            />
+          </>
+        ) : (
+          <Notification />
+        )}
+      </>
     </div>
   );
 }
+
 export default App;
