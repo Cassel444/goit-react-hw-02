@@ -32,7 +32,7 @@ function App() {
     feedbackTypes.good + feedbackTypes.neutral + feedbackTypes.bad;
 
   const positiveFeedback = Math.round(
-    ((feedbackTypes.good + feedbackTypes.neutral) / totalFeedback) * 100
+    (feedbackTypes.good / totalFeedback) * 100
   );
 
   return (
