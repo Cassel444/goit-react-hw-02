@@ -1,22 +1,33 @@
 import css from "./App.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Description from "../Description/Description";
 import Options from "../Options/Options";
 import Feedback from "../Feedback/Feedback";
 import Notification from "../Notification/Notification";
 
-function App() {
-  const [feedbackTypes, setFeedbackTypes] = useState({
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  });
+const createInitialFeedback = () => {
+  const localFeedback = localStorage.getItem("data");
+  return localFeedback
+    ? JSON.parse(localFeedback)
+    : {
+        good: 0,
+        neutral: 0,
+        bad: 0,
+      };
+};
 
-  const updateFeedback = (feedbackType) => {
+function App() {
+  const [feedbackTypes, setFeedbackTypes] = useState(createInitialFeedback);
+
+  useEffect(() => {
+    localStorage.setItem("data", JSON.stringify(feedbackTypes));
+  }, [feedbackTypes]);
+
+  const updateFeedback = (type) => {
     setFeedbackTypes({
       ...feedbackTypes,
-      [feedbackType]: feedbackTypes[feedbackType] + 1,
+      [type]: feedbackTypes[type] + 1,
     });
   };
 
