@@ -25,10 +25,10 @@ function App() {
   }, [feedbackTypes]);
 
   const updateFeedback = (type) => {
-    setFeedbackTypes({
-      ...feedbackTypes,
-      [type]: feedbackTypes[type] + 1,
-    });
+    setFeedbackTypes((prevFeedbackTypes) => ({
+      ...prevFeedbackTypes,
+      [type]: prevFeedbackTypes[type] + 1,
+    }));
   };
 
   const resetFeedback = () => {
@@ -42,9 +42,9 @@ function App() {
   const totalFeedback =
     feedbackTypes.good + feedbackTypes.neutral + feedbackTypes.bad;
 
-  const positiveFeedback = Math.round(
-    (feedbackTypes.good / totalFeedback) * 100
-  );
+  const positiveFeedback = totalFeedback
+    ? Math.round((feedbackTypes.good / totalFeedback) * 100)
+    : 0;
 
   return (
     <div className={css.container}>
@@ -54,28 +54,19 @@ function App() {
         <Options onClick={() => updateFeedback("neutral")}>Neutral</Options>
         <Options onClick={() => updateFeedback("bad")}>Bad</Options>
 
-        {totalFeedback !== 0 ? (
-          <Options onClick={resetFeedback}>Reset</Options>
-        ) : (
-          <></>
-        )}
+        {totalFeedback > 0 && <Options onClick={resetFeedback}>Reset</Options>}
       </div>
-      <></>
-      <>
-        {totalFeedback > 0 ? (
-          <>
-            <Feedback
-              good={feedbackTypes.good}
-              neutral={feedbackTypes.neutral}
-              bad={feedbackTypes.bad}
-              total={totalFeedback}
-              positive={positiveFeedback}
-            />
-          </>
-        ) : (
-          <Notification />
-        )}
-      </>
+      {totalFeedback > 0 ? (
+        <Feedback
+          good={feedbackTypes.good}
+          neutral={feedbackTypes.neutral}
+          bad={feedbackTypes.bad}
+          total={totalFeedback}
+          positive={positiveFeedback}
+        />
+      ) : (
+        <Notification />
+      )}
     </div>
   );
 }
