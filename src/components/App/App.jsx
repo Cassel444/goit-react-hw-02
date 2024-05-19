@@ -49,13 +49,11 @@ function App() {
   return (
     <div className={css.container}>
       <Description />
-      <div className={css.buttons}>
-        <Options onClick={() => updateFeedback("good")}>Good</Options>
-        <Options onClick={() => updateFeedback("neutral")}>Neutral</Options>
-        <Options onClick={() => updateFeedback("bad")}>Bad</Options>
-
-        {totalFeedback > 0 && <Options onClick={resetFeedback}>Reset</Options>}
-      </div>
+      <Options
+        updateFeedback={updateFeedback}
+        resetFeedback={resetFeedback}
+        totalFeedback={totalFeedback}
+      />
       {totalFeedback > 0 ? (
         <Feedback
           good={feedbackTypes.good}

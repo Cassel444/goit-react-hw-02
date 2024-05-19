@@ -1,7 +1,6 @@
 .description {
   margin-bottom: 20px;
 }
-
 .name {
   color: black;
   font-size: 52px;
@@ -9,9 +8,8 @@
 }
 .action {
   color: black;
-  text-align: start;
   font-size: 26px;
   line-height: 1.5;
-  letter-spacing: -0.03em;
+  letter-spacing: 0.03em;
   font-weight: 400;
 }
